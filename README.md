@@ -9,12 +9,12 @@ O objetivo principal é construir uma aplicação full-stack com uma comunicaç�
 ## Tecnologias Utilizadas
 
 - **Framework:** [Next.js](https://nextjs.org/) (com App Router)
-- **API:** [tRPC](https://trpc.io/)
+- **API:** [TRPC](https://trpc.io/)
 - **ORM:** [Prisma](https://www.prisma.io/)
 - **Gerenciamento de Estado do Servidor:** [TanStack Query (React Query)](https://tanstack.com/query/latest)
 - **Validação de Schema:** [Zod](https://zod.dev/)
 - **Autenticação:** [Next-Auth](https://next-auth.js.org/)
-- **Banco de Dados:** (Não especificado, mas gerenciado pelo Prisma)
+- **Banco de Dados:** [PostgreSQL](https://www.postgresql.org/) (gerenciado pelo Prisma)
 - **UI:** (Componentes React/Tailwind CSS)
 
 ## Estrutura do Projeto
