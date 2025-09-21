@@ -1,0 +1,16 @@
+{
+  "title": "Acesse sua conta",
+  "registerTitle": "Crie a sua conta",
+  "email": "Endereço de e-mail",
+  "password": "Senha",
+  "confirmPassword": "Confirme sua senha",
+  "signIn": "Entrar",
+  "signInWithGoogle": "Entrar com Google",
+  "orContinueWith": "Ou continue com",
+  "forgotPassword": "Esqueceu sua senha?",
+  "noAccount": "Não tem uma conta?",
+  "haveAccount": "Já tem uma conta?",
+  "signUp": "Cadastre-se",
+  "userAlreadyExists": "Já existe um usuário com este email",
+  "passwordAndConfirmPasswordNotMatch": "Senha e confirmação de senha não coincidem"
+}

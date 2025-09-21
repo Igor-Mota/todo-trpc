@@ -1,0 +1,16 @@
+{
+  "title": "Sign in to your account",
+  "registerTitle": "Create your account",
+  "email": "Email address",
+  "password": "Password",
+  "confirmPassword": "Confirm password",
+  "signIn": "Sign In",
+  "signInWithGoogle": "Sign in with Google",
+  "orContinueWith": "Or continue with",
+  "forgotPassword": "Forgot your password?",
+  "noAccount": "Don't have an account?",
+  "haveAccount": "Already have an account?",
+  "signUp": "Sign up",
+  "userAlreadyExists": "User already exists",
+  "passwordAndConfirmPasswordNotMatch": "Password and confirm password not match"
+}

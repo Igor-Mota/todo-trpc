@@ -1,0 +1,80 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id       Int        @id @default(autoincrement())
+  publicId String     @unique @default(uuid())
+  email    String?    @unique
+  name     String?
+  todos    Todo[]
+  deleted  Boolean    @default(false)
+  accounts Account[]
+  TodoList TodoList[]
+
+  @@index([publicId, deleted])
+}
+
+model TodoList {
+  id        Int      @id @default(autoincrement())
+  publicId  String   @unique @default(uuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  deleted   Boolean  @default(false)
+  name      String
+  todos     Todo[]
+  user      User     @relation(fields: [userId], references: [id])
+  userId    Int
+
+  @@index([publicId, deleted])
+}
+
+model Todo {
+  id         Int        @id @default(autoincrement())
+  publicId   String     @unique @default(uuid())
+  createdAt  DateTime   @default(now())
+  updatedAt  DateTime   @updatedAt
+  position   Int        @default(autoincrement())
+  title      String
+  status     TodoStatus
+  owner      User       @relation(fields: [ownerId], references: [id])
+  ownerId    Int
+  deleted    Boolean    @default(false)
+  TodoList   TodoList?  @relation(fields: [todoListId], references: [id])
+  todoListId Int?
+
+  @@index([publicId, deleted])
+}
+
+enum TodoStatus {
+  PENDING
+  IN_PROGRESS
+  COMPLETED
+}
+
+model Account {
+  id                String  @id @default(uuid())
+  userId            Int
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+  password          String? @db.Text
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
