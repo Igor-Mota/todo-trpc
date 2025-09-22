@@ -1,0 +1,5 @@
+{
+  "PENDING": "Esperando",
+  "IN_PROGRESS": "Executando",
+  "COMPLETED": "Completo"
+}

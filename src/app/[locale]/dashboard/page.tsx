@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import View, { IViewProps } from "./view";
 import { trpc } from "@/utils/trpc";
 import { useSession } from "next-auth/react";
@@ -14,6 +14,8 @@ interface IParams {
 export default function Dashboard({ params }: IParams) {
   const { locale } = React.use(params);
   const { data: session } = useSession();
+  const [isRemovingId, setIsRemovingId] = useState("");
+  const [isCreatingItemId, setIsCreatingItemId] = useState("");
 
   const { mutateAsync: createListMutate, isPending: isCreating } = trpc.todoList.create.useMutation();
   const { mutateAsync: removeListMutate, isPending: isRemoving } = trpc.todoList.remove.useMutation();
@@ -23,6 +25,8 @@ export default function Dashboard({ params }: IParams) {
   const { data, refetch } = trpc.todoList.findMany.useQuery({ userId: session?.user.id! }, { enabled: !!session?.user.id });
 
   const handleCreateList = async () => {
+    if (isCreating) return;
+
     await createListMutate({
       name: "Nova lista",
       userId: session?.user.id!,
@@ -31,6 +35,7 @@ export default function Dashboard({ params }: IParams) {
   };
 
   const handleRemoveList = async (id: string) => {
+    setIsRemovingId(id);
     await removeListMutate({
       id,
     });
@@ -38,6 +43,8 @@ export default function Dashboard({ params }: IParams) {
   };
 
   const handleAddItem = async (listId: string) => {
+    if (isCreatingItem) return;
+    setIsCreatingItemId(listId);
     await createItemMutate({
       listId,
       title: "Novo item",
@@ -64,7 +71,9 @@ export default function Dashboard({ params }: IParams) {
       lists,
       isCreating,
       isRemoving,
+      isRemovingId,
       isCreatingItem,
+      isCreatingItemId,
     },
     handles: {
       handleCreateList,

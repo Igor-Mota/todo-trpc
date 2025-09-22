@@ -13,6 +13,8 @@ export interface IViewProps {
     isCreating: boolean;
     isRemoving: boolean;
     isCreatingItem: boolean;
+    isRemovingId: string;
+    isCreatingItemId: string;
   };
   handles: {
     handleCreateList: () => void;
@@ -56,12 +58,11 @@ export default function View({ data, handles }: IViewProps) {
         {data.lists.map(({ publicId, name, todos }: ITodoListWhitTodo) => (
           <section
             key={publicId}
-            className={`bg-white/80 backdrop-blur rounded-2xl shadow-lg border border-white/30 p-6 flex flex-col relative transition
-              ${data.isRemoving ? "opacity-60 pointer-events-none" : ""}
+            className={` bg-white/80 backdrop-blur rounded-2xl shadow-lg border border-white/30 p-6 flex flex-col relative transition
+              ${data.isRemoving && data.isRemovingId === publicId ? "opacity-60 pointer-events-none" : ""}
             `}
           >
-            {/* Overlay de loading ao remover lista */}
-            {data.isRemoving && (
+            {data.isRemoving && data.isRemovingId === publicId && (
               <div className="absolute inset-0 bg-white/60 flex items-center justify-center rounded-2xl z-10">
                 <svg className="w-8 h-8 text-indigo-600 animate-spin" fill="none" viewBox="0 0 24 24">
                   <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
@@ -77,11 +78,11 @@ export default function View({ data, handles }: IViewProps) {
                   type="button"
                   disabled={data.isCreatingItem}
                   className={`cursor-pointer p-2 rounded-full bg-gradient-to-r from-indigo-600 via-purple-500 to-blue-400 transition
-                    ${data.isCreatingItem ? "opacity-60 cursor-not-allowed" : ""}
+                    ${data.isCreatingItem && data.isCreatingItemId == publicId ? "opacity-60 cursor-not-allowed" : ""}
                   `}
                   title="Adicionar item à lista"
                 >
-                  {data.isCreatingItem ? (
+                  {data.isCreatingItem && data.isCreatingItemId == publicId ? (
                     <svg className="w-5 h-5 animate-spin" fill="none" viewBox="0 0 24 24">
                       <circle className="opacity-25" cx="12" cy="12" r="10" stroke="white" strokeWidth="4" />
                       <path className="opacity-75" fill="white" d="M4 12a8 8 0 018-8v8z" />
@@ -98,11 +99,11 @@ export default function View({ data, handles }: IViewProps) {
                   type="button"
                   disabled={data.isRemoving}
                   className={`cursor-pointer p-2 rounded-full bg-red-100 hover:bg-red-200 transition
-                    ${data.isRemoving ? "opacity-60 cursor-not-allowed" : ""}
+                    ${data.isRemoving && data.isRemovingId === publicId ? "opacity-60 cursor-not-allowed" : ""}
                   `}
                   title="Remover lista"
                 >
-                  {data.isRemoving ? (
+                  {data.isRemoving && data.isRemovingId === publicId ? (
                     <svg className="w-5 h-5 animate-spin text-red-500" fill="none" viewBox="0 0 24 24">
                       <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
                       <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z" />
@@ -117,11 +118,15 @@ export default function View({ data, handles }: IViewProps) {
               </div>
               <EditableTitle listTitle={name} id={publicId} handleSubmit={handles.handleUpdate} />
             </div>
-            <div>
+            <div className="max-h-[400px] overflow-auto py-6 flex flex-col gap-y-0 ">
               {todos.length === 0 ? (
                 <div className="text-center text-indigo-300 py-8">Nenhuma tarefa nesta lista.</div>
               ) : (
-                todos.map(({ publicId, title, status }) => <TodoList key={publicId} id={publicId} title={title} refetch={handles.refetch} status={status} />)
+                <div>
+                  {todos.map(({ publicId, title, status }) => (
+                    <TodoList key={publicId} id={publicId} title={title} refetch={handles.refetch} status={status} />
+                  ))}
+                </div>
               )}
             </div>
           </section>
