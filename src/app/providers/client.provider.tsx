@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtoolsPanel } from "@tanstack/react-query-devtools";
+import { pacerDevtoolsPlugin } from "@tanstack/react-pacer-devtools";
 import { SessionProvider } from "next-auth/react";
 import { trpc } from "@/utils/trpc";
 import { httpBatchLink } from "@trpc/client";
@@ -27,7 +28,12 @@ export function TrpcProvider({ children }: { children: React.ReactNode }) {
         <SessionProvider>
           <ToastProvider>{children}</ToastProvider>
         </SessionProvider>
-        <TanStackDevtools plugins={[{ name: "TanStack Query", render: <ReactQueryDevtoolsPanel /> }]} />
+        <TanStackDevtools
+          eventBusConfig={{
+            debug: true,
+          }}
+          plugins={[pacerDevtoolsPlugin(), { name: "TanStack Query", render: <ReactQueryDevtoolsPanel /> }]}
+        />
       </QueryClientProvider>
     </trpc.Provider>
   );
