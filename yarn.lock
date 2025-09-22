@@ -651,6 +651,11 @@
   dependencies:
     ws "^8.18.3"
 
+"@tanstack/devtools-event-client@^0.2.5":
+  version "0.2.5"
+  resolved "https://registry.yarnpkg.com/@tanstack/devtools-event-client/-/devtools-event-client-0.2.5.tgz#0b793bfb94fe2ed3ede1d87768056768b5a893db"
+  integrity sha512-iVdqw879KETXyyPHc3gQR5Ld0GjlPLk7bKenBUhzr3+z1FiQZvsbfgYfRRokTSPcgwANAV7aA2Uv05nx5xWT8A==
+
 "@tanstack/devtools-ui@0.3.5":
   version "0.3.5"
   resolved "https://registry.yarnpkg.com/@tanstack/devtools-ui/-/devtools-ui-0.3.5.tgz#e08e8c158ba95ce140a794d7a18e293ecbfad4b2"
@@ -671,6 +676,14 @@
     clsx "^2.1.1"
     goober "^2.1.16"
     solid-js "^1.9.7"
+
+"@tanstack/pacer@^0.15.3":
+  version "0.15.3"
+  resolved "https://registry.yarnpkg.com/@tanstack/pacer/-/pacer-0.15.3.tgz#5d7c4c1e3a673bcc2cbf2eca7d32e516312f2b5f"
+  integrity sha512-yF7TDPeCwss+4zlHAinBDUrG+RF4+f3oUedYsTEcyXSdgTLLwozFxA1nH72KugTE67A1BkpfSrgeMjDYHgaaPw==
+  dependencies:
+    "@tanstack/devtools-event-client" "^0.2.5"
+    "@tanstack/store" "^0.7.5"
 
 "@tanstack/query-core@5.89.0":
   version "5.89.0"
@@ -702,6 +715,11 @@
   integrity sha512-SXbtWSTSRXyBOe80mszPxpEbaN4XPRUp/i0EfQK1uyj3KCk/c8FuPJNIRwzOVe/OU3rzxrYtiNabsAmk1l714A==
   dependencies:
     "@tanstack/query-core" "5.89.0"
+
+"@tanstack/store@^0.7.5":
+  version "0.7.7"
+  resolved "https://registry.yarnpkg.com/@tanstack/store/-/store-0.7.7.tgz#2c8b1d8c094f3614ae4e0483253239abd0e14488"
+  integrity sha512-xa6pTan1bcaqYDS9BDpSiS63qa6EoDkPN9RsRaxHuDdVDNntzq3xNwR5YKTU/V3SkSyC9T4YVOPh2zRQN0nhIQ==
 
 "@trpc/client@^11.5.1":
   version "11.5.1"
@@ -1079,6 +1097,11 @@ lru-cache@^6.0.0:
   integrity sha512-Jo6dJ04CmSjuznwJSS3pUeWmd/H0ffTlkXXgwZi+eq1UCmqQwCh+eLsYOYCwY991i2Fah4h1BEMCx4qThGbsiA==
   dependencies:
     yallist "^4.0.0"
+
+lucide-react@^0.544.0:
+  version "0.544.0"
+  resolved "https://registry.yarnpkg.com/lucide-react/-/lucide-react-0.544.0.tgz#4719953c10fd53a64dd8343bb0ed16ec79f3eeef"
+  integrity sha512-t5tS44bqd825zAW45UQxpG2CvcC4urOwn2TrwSH8u+MjeE+1NnWl6QqeQ/6NdjMqdOygyiT9p3Ev0p1NJykxjw==
 
 magic-string@^0.30.18:
   version "0.30.19"

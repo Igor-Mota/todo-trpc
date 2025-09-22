@@ -121,7 +121,7 @@ export default function View({ data, handles }: IViewProps) {
               {todos.length === 0 ? (
                 <div className="text-center text-indigo-300 py-8">Nenhuma tarefa nesta lista.</div>
               ) : (
-                todos.map(({ publicId, title }) => <TodoList id={publicId} title={title} refetch={handles.refetch} key={publicId} />)
+                todos.map(({ publicId, title, status }) => <TodoList key={publicId} id={publicId} title={title} refetch={handles.refetch} status={status} />)
               )}
             </div>
           </section>
