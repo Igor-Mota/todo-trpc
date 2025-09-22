@@ -17,6 +17,9 @@ export default function Dashboard({ params }: IParams) {
 
   const { mutateAsync: createListMutate } = trpc.todoList.create.useMutation();
   const { mutateAsync: removeListMutate } = trpc.todoList.remove.useMutation();
+  const { mutateAsync: createItemMutate } = trpc.todo.create.useMutation();
+
+  const { mutateAsync: updateListMutate } = trpc.todoList.update.useMutation();
   const { data, refetch } = trpc.todoList.findMany.useQuery({ userId: session?.user.id! }, { enabled: !!session?.user.id });
 
   const handleCreateList = async () => {
@@ -34,6 +37,25 @@ export default function Dashboard({ params }: IParams) {
     refetch();
   };
 
+  const handleAddItem = async (listId: string) => {
+    await createItemMutate({
+      listId,
+      title: "Novo item",
+      status: "PENDING",
+    });
+
+    refetch();
+  };
+
+  const handleUpdate = async (data: { id: string; title?: string }) => {
+    if (!data.title) return;
+
+    updateListMutate({
+      id: data.id,
+      name: data.title,
+    });
+  };
+
   const lists = data && "lists" in data ? data.lists : [];
 
   const viewProps: IViewProps = {
@@ -44,6 +66,9 @@ export default function Dashboard({ params }: IParams) {
     handles: {
       handleCreateList,
       handleRemoveList,
+      handleAddItem,
+      handleUpdate,
+      refetch,
     },
   };
 

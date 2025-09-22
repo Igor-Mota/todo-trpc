@@ -28,6 +28,9 @@ export async function findMany(prisma: PrismaClient, { input }: { input: QueryPa
               title: true,
               status: true,
             },
+            orderBy: {
+              position: "asc",
+            },
           },
         },
       },

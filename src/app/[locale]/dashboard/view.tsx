@@ -14,6 +14,9 @@ export interface IViewProps {
   handles: {
     handleCreateList: () => void;
     handleRemoveList: (id: string) => void;
+    handleAddItem: (listId: string) => void;
+    handleUpdate: ({ id, title }: { id: string; title: string }) => Promise<void>;
+    refetch: () => void;
   };
 }
 
@@ -42,10 +45,10 @@ export default function View({ data, handles }: IViewProps) {
             <div className="flex flex-col items-center justify-between mb-4">
               <div className="flex w-full justify-end gap-x-4">
                 <button
-                  onClick={() => handles.handleRemoveList(publicId)}
+                  onClick={() => handles.handleAddItem(publicId)}
                   type="button"
                   className="cursor-pointer p-2 rounded-full bg-gradient-to-r from-indigo-600 via-purple-500 to-blue-400 transition"
-                  title="Remover lista"
+                  title="Adicionar item à lista"
                 >
                   <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24">
                     <circle cx="12" cy="12" r="10" stroke="white" strokeWidth="2" />
@@ -64,10 +67,11 @@ export default function View({ data, handles }: IViewProps) {
                   </svg>
                 </button>
               </div>
-              <EditableTitle listTitle={name} />
+              <EditableTitle listTitle={name} id={publicId} handleSubmit={handles.handleUpdate} />
             </div>
+            =
             {todos.map(({ publicId, title }) => {
-              return <TodoList id={publicId} title={title} />;
+              return <TodoList id={publicId} title={title} refetch={handles.refetch} key={publicId} />;
             })}
           </section>
         ))}

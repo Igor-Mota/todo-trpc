@@ -2,8 +2,15 @@ import { useState } from "react";
 
 import View, { IViewProps } from "./view";
 import { trpc } from "@/utils/trpc";
+import { TodoStatus } from "@prisma/client";
 
-export default function EditableTitle({ listTitle = "" }: { listTitle: string }) {
+interface IProps {
+  listTitle: string;
+  id: string;
+  handleSubmit: ({ id, title }: { id: string; title: string }) => Promise<void>;
+}
+
+export default function EditableTitle({ id, listTitle = "", handleSubmit }: IProps) {
   const [isEditing, setIsEditing] = useState(false);
   const [title, setTitle] = useState(listTitle);
 
@@ -24,10 +31,7 @@ export default function EditableTitle({ listTitle = "" }: { listTitle: string })
 
   const onSubmit = async () => {
     setIsEditing(false);
-
-    await mutateAsync({
-      name: title,
-    });
+    await handleSubmit({ id, title: title.trim() });
   };
 
   const viewProps: IViewProps = {

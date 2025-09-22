@@ -10,9 +10,10 @@ export const createSchema = todoListSchema.extend({
   userId: z.string().uuid(),
 });
 export const updateSchema = todoListSchema.extend({
-  userId: z.string().uuid(),
+  id: z.string().uuid(),
   name: z.string().min(2).max(60),
 });
 
+export type TodoListInputUpdate = z.infer<typeof updateSchema>;
 export type TodoListInput = z.infer<typeof todoListSchema>;
 export type TodoListInputCreate = z.infer<typeof createSchema>;
