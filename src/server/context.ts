@@ -1,6 +1,6 @@
 // src/server/context.ts
 import { AuthOptions, getServerSession } from "next-auth";
-import { authOptions } from "../app/api/auth/[...nextauth]/route";
+import { authOptions } from "./trpc/authOptions";
 import { prisma } from "./db";
 
 export const createContext = async () => {
