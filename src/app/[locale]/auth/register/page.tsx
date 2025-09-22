@@ -39,6 +39,9 @@ export default function RegisterPage({ params }: IParams) {
           setIsLoading(false);
           navigate.push(`/${locale}/dashboard`);
         }
+        if (signInResult?.error) {
+          navigate.push(`/${locale}/auth/login`);
+        }
       } else {
         showToast({ message: t(result.message), type: "error" });
         reset();
