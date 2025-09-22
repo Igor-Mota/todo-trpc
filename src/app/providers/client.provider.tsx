@@ -2,10 +2,12 @@
 
 import { useState } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ReactQueryDevtoolsPanel } from "@tanstack/react-query-devtools";
 import { SessionProvider } from "next-auth/react";
 import { trpc } from "@/utils/trpc";
 import { httpBatchLink } from "@trpc/client";
 import { ToastProvider } from "./toast.provider";
+import { TanStackDevtools } from "@tanstack/react-devtools";
 
 export function TrpcProvider({ children }: { children: React.ReactNode }) {
   const [queryClient] = useState(() => new QueryClient());
@@ -25,6 +27,7 @@ export function TrpcProvider({ children }: { children: React.ReactNode }) {
         <SessionProvider>
           <ToastProvider>{children}</ToastProvider>
         </SessionProvider>
+        <TanStackDevtools plugins={[{ name: "TanStack Query", render: <ReactQueryDevtoolsPanel /> }]} />
       </QueryClientProvider>
     </trpc.Provider>
   );
