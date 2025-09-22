@@ -15,16 +15,18 @@ export async function create(prisma: PrismaClient, { input }: { input: TodoCreat
 
   if (!list) return "{{ object }} not founded";
 
+  let todoData = {
+    ownerId: list.user.id,
+  } as any;
+
+  if (rest.title) todoData.title = rest.title;
+  if (rest.status) todoData.status = rest.status;
+  if (!todoData.status || !todoData.title) return;
   const listForCreate = await prisma.todoList.update({
-    where: {
-      publicId: listId,
-    },
+    where: { publicId: listId },
     data: {
       todos: {
-        create: {
-          ...rest,
-          ownerId: list.user.id,
-        },
+        create: todoData,
       },
     },
   });
