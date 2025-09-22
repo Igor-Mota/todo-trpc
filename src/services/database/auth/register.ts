@@ -8,6 +8,7 @@ export const userRegister = async (prisma: PrismaClient, input: IRegister) => {
   const userAlreadyExists = await prisma.user.findFirst({
     where: {
       email,
+      deleted: false,
     },
   });
 
