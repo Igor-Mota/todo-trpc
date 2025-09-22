@@ -15,9 +15,9 @@ export default function Dashboard({ params }: IParams) {
   const { locale } = React.use(params);
   const { data: session } = useSession();
 
-  const { mutateAsync: createListMutate } = trpc.todoList.create.useMutation();
-  const { mutateAsync: removeListMutate } = trpc.todoList.remove.useMutation();
-  const { mutateAsync: createItemMutate } = trpc.todo.create.useMutation();
+  const { mutateAsync: createListMutate, isPending: isCreating } = trpc.todoList.create.useMutation();
+  const { mutateAsync: removeListMutate, isPending: isRemoving } = trpc.todoList.remove.useMutation();
+  const { mutateAsync: createItemMutate, isPending: isCreatingItem } = trpc.todo.create.useMutation();
 
   const { mutateAsync: updateListMutate } = trpc.todoList.update.useMutation();
   const { data, refetch } = trpc.todoList.findMany.useQuery({ userId: session?.user.id! }, { enabled: !!session?.user.id });
@@ -62,6 +62,9 @@ export default function Dashboard({ params }: IParams) {
     data: {
       locale,
       lists,
+      isCreating,
+      isRemoving,
+      isCreatingItem,
     },
     handles: {
       handleCreateList,
