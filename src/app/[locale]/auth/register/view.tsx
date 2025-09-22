@@ -8,6 +8,7 @@ import { registerSchema, RegisterInput } from "@/schemas/auth";
 export interface IViewProps {
   data: {
     locale: string;
+    isLoading: boolean;
   };
   handles: {
     onSubmit: (data: RegisterInput) => void;
@@ -114,8 +115,17 @@ export default function View({ data, handles }: IViewProps) {
           <div>
             <button
               type="submit"
-              className="cursor-pointer flex justify-center w-full px-4 py-3 text-sm font-semibold text-white bg-gradient-to-r from-indigo-600 via-purple-500 to-blue-400 border border-transparent rounded-lg shadow-md hover:brightness-110 transition focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-300"
+              disabled={data.isLoading}
+              className={`cursor-pointer flex justify-center w-full px-4 py-3 text-sm font-semibold text-white bg-gradient-to-r from-indigo-600 via-purple-500 to-blue-400 border border-transparent rounded-lg shadow-md hover:brightness-110 transition focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-300
+                ${data.isLoading ? "opacity-60 cursor-not-allowed" : ""}
+              `}
             >
+              {data.isLoading ? (
+                <svg className="w-5 h-5 animate-spin mr-2" fill="none" viewBox="0 0 24 24">
+                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="white" strokeWidth="4" />
+                  <path className="opacity-75" fill="white" d="M4 12a8 8 0 018-8v8z" />
+                </svg>
+              ) : null}
               {t("signIn")}
             </button>
           </div>

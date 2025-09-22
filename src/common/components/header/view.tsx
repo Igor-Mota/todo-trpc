@@ -1,8 +1,14 @@
+"use client";
 import Link from "next/link";
 
 export interface IViewProps {
-  data: {};
-  handles: {};
+  data: {
+    menuIsOpen: boolean;
+  };
+  handles: {
+    handleOpenProfileMenu: () => void;
+    handleLogOut: () => void;
+  };
 }
 
 export default function View({ data, handles }: IViewProps) {
@@ -22,7 +28,7 @@ export default function View({ data, handles }: IViewProps) {
 
         <nav className="hidden md:flex gap-6"></nav>
 
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-4 relative">
           <button
             type="button"
             className="flex items-center gap-1 px-3 py-2 rounded-lg bg-white/20 hover:bg-white/30 transition text-white font-semibold shadow"
@@ -34,13 +40,28 @@ export default function View({ data, handles }: IViewProps) {
             </svg>
             <span className="hidden sm:inline">Idioma</span>
           </button>
-          {/* Avatar do usuário (placeholder visual) */}
-          <span className="w-9 h-9 rounded-full bg-white/30 flex items-center justify-center text-white font-bold shadow">
-            <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24">
-              <circle cx="12" cy="8" r="4" stroke="currentColor" strokeWidth="2" />
-              <path stroke="currentColor" strokeWidth="2" d="M4 20c0-4 4-7 8-7s8 3 8 7" />
-            </svg>
-          </span>
+          {/* Avatar do usuário (dropdown) */}
+          <div className="relative">
+            <button
+              type="button"
+              className="cursor-pointer w-9 h-9 rounded-full bg-white/30 flex items-center justify-center text-white font-bold shadow focus:outline-none"
+              onClick={handles.handleOpenProfileMenu}
+              aria-label="Abrir menu do usuário"
+            >
+              <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24">
+                <circle cx="12" cy="8" r="4" stroke="currentColor" strokeWidth="2" />
+                <path stroke="currentColor" strokeWidth="2" d="M4 20c0-4 4-7 8-7s8 3 8 7" />
+              </svg>
+            </button>
+            {data.menuIsOpen && (
+              <div className="absolute right-0 mt-2 w-40 bg-white rounded-xl shadow-lg py-2 z-50 animate-fade-in">
+                <div className="px-4 py-2 text-indigo-700 font-semibold border-b border-indigo-50">Meu Perfil</div>
+                <button onClick={handles.handleLogOut} type="button" className="cursor-pointer w-full text-left px-4 py-2 text-red-600 hover:bg-red-50 transition font-medium">
+                  Sair
+                </button>
+              </div>
+            )}
+          </div>
         </div>
 
         {/* Menu mobile */}
@@ -56,6 +77,21 @@ export default function View({ data, handles }: IViewProps) {
       <div className="md:hidden px-4 pb-4">
         <nav className="flex flex-col gap-2 mt-2 bg-white/10 rounded-xl shadow text-white backdrop-blur"></nav>
       </div>
+      <style jsx>{`
+        .animate-fade-in {
+          animation: fade-in 0.18s ease;
+        }
+        @keyframes fade-in {
+          from {
+            opacity: 0;
+            transform: translateY(-8px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+      `}</style>
     </header>
   );
 }

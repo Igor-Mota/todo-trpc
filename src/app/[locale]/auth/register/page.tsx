@@ -1,11 +1,14 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
+import { useRouter } from "next/navigation";
 import { useToast } from "@/app/providers/toast.provider";
 import { useTranslations } from "next-intl";
 import { IRegister } from "@/interfaces/auth";
 import { trpc } from "@/utils/trpc";
 import View from "./view";
+import { signIn } from "next-auth/react";
+import { set } from "zod";
 
 interface IParams {
   params: Promise<{
@@ -14,23 +17,40 @@ interface IParams {
 }
 
 export default function RegisterPage({ params }: IParams) {
+  const [isLoading, setIsLoading] = useState(false);
   const { locale } = React.use(params);
   const t = useTranslations("login");
-  const { data, mutateAsync, reset } = trpc.auth.register.useMutation();
+  const { mutateAsync, reset } = trpc.auth.register.useMutation();
   const { showToast } = useToast();
+  const navigate = useRouter();
 
   const onSubmit = async (data: IRegister) => {
-    await mutateAsync(data);
+    setIsLoading(true);
+    try {
+      const result = await mutateAsync(data);
+
+      if (result.success) {
+        const signInResult = await signIn("credentials", {
+          redirect: false,
+          email: data.email,
+          password: data.password,
+        });
+        if (signInResult?.ok) {
+          setIsLoading(false);
+          navigate.push(`/${locale}/dashboard`);
+        }
+      } else {
+        showToast({ message: t(result.message), type: "error" });
+        reset();
+      }
+    } catch (error) {
+      showToast({ message: t("unexpectedError"), type: "error" });
+    }
+    setIsLoading(false);
   };
 
-  if (data && data.success === false) {
-    showToast({ message: t(data.message), type: "error" });
-    reset();
-  }
-
-  console.log(data);
   const viewProps = {
-    data: { locale },
+    data: { locale, isLoading },
     handles: {
       onSubmit,
     },

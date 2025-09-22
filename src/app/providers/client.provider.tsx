@@ -22,13 +22,18 @@ export function TrpcProvider({ children }: { children: React.ReactNode }) {
     })
   );
 
+  const isDev = process.env.NODE_ENV === "development";
+
   return (
     <trpc.Provider client={trpcClient} queryClient={queryClient}>
       <QueryClientProvider client={queryClient}>
         <SessionProvider>
           <ToastProvider>{children}</ToastProvider>
         </SessionProvider>
-        <TanStackDevtools eventBusConfig={{ debug: false }} plugins={[pacerDevtoolsPlugin(), { name: "TanStack Query", render: <ReactQueryDevtoolsPanel /> }].filter(Boolean)} />
+
+        {isDev && (
+          <TanStackDevtools eventBusConfig={{ debug: false }} plugins={[pacerDevtoolsPlugin(), { name: "TanStack Query", render: <ReactQueryDevtoolsPanel /> }].filter(Boolean)} />
+        )}
       </QueryClientProvider>
     </trpc.Provider>
   );
